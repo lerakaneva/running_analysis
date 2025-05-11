@@ -33,6 +33,7 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     df["Date"] = pd.to_datetime(df["Date"])
     df["Time_seconds"] = df["Time"].apply(time_str_to_seconds)
     df["Avg_Pace_seconds"] = df["Avg Pace"].apply(pace_str_to_seconds)
+    df["Avg_Pace_to_HR"] = df["Avg_Pace_seconds"].div(df["Avg HR"].replace(0, np.nan)).fillna(0)
     
     # Set date as index and remove original time columns
     df.set_index("Date", inplace=True)
@@ -56,7 +57,8 @@ def create_weekly_summary(df: pd.DataFrame) -> pd.DataFrame:
         "Distance": "sum",
         "Time_seconds": "sum",
         "Avg_Pace_seconds": "mean",
-        "Avg HR": "mean"
+        "Avg HR": "mean",
+        "Avg_Pace_to_HR": "mean"
     }).rename(columns={
         "Distance": "total_distance", 
         "Time_seconds": "total_time_seconds", 

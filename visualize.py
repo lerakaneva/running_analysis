@@ -33,6 +33,7 @@ def get_text_dictionary(language="en"):
             "avg_time_seconds_per_run": "Avg Time/Run",
             "Avg_HR": "Average Heart Rate",
             "Avg_Pace_seconds": "Average Pace",
+            "Avg_Pace_to_HR": "Pace to Heart Rate Ratio", 
             "ylabel_km": "km",
             "ylabel_runs": "Runs per Week",
             "ylabel_minutes": "min",
@@ -40,6 +41,7 @@ def get_text_dictionary(language="en"):
             "ylabel_min_per_run": "min",
             "ylabel_bpm": "bpm",
             "ylabel_pace": "min/km",
+            "ylabel_pace_to_hr": "sec/km per bpm",
             "all_charts_saved": "All charts saved to PNG in '{0}' and PDF: {1}"
         },
         "ru": {
@@ -50,6 +52,7 @@ def get_text_dictionary(language="en"):
             "avg_time_seconds_per_run": "Среднее время тренировки",
             "Avg_HR": "Средний пульс",
             "Avg_Pace_seconds": "Средний темп",
+            "Avg_Pace_to_HR": "Отношение темпа к пульсу",
             "ylabel_km": "км",
             "ylabel_runs": "Тренировок в неделю",
             "ylabel_minutes": "мин",
@@ -57,6 +60,7 @@ def get_text_dictionary(language="en"):
             "ylabel_min_per_run": "мин",
             "ylabel_bpm": "уд/мин",
             "ylabel_pace": "мин/км",
+            "ylabel_pace_to_hr": "сек/км на уд/мин",
             "all_charts_saved": "Все графики сохранены в PNG в папке '{0}' и PDF: {1}"
         }
     }
@@ -109,7 +113,7 @@ def plot_metric(
     data = df.reindex(full_index).copy()
     data["run_count"] = data["run_count"].fillna(0)
 
-    y = data[column] / 60 if column.endswith("_seconds") else data[column]
+    y = data[column]
     bar_width = pd.Timedelta(days=6.5)
 
     fig, ax = plt.subplots(figsize=(12, 6))
@@ -146,8 +150,8 @@ def plot_all_metrics(summary, output_dir="charts", language="en"):
         str: Path to the generated PDF file
     """
     # Formatters for time and pace
-    def tf(y, pos): return format_seconds_to_time(y * 60)
-    def pf(y, pos): return format_seconds_to_pace(y)
+    def tf(y, _): return format_seconds_to_time(y)
+    def pf(y, _): return format_seconds_to_pace(y)
     
     # Get localized text
     txt = get_text_dictionary(language)
@@ -164,6 +168,7 @@ def plot_all_metrics(summary, output_dir="charts", language="en"):
         ("avg_time_seconds_per_run", txt["avg_time_seconds_per_run"], txt["ylabel_min_per_run"], "purple", tf, False),
         ("Avg_HR", txt["Avg_HR"], txt["ylabel_bpm"], "red", None, False),
         ("Avg_Pace_seconds", txt["Avg_Pace_seconds"], txt["ylabel_pace"], "orange", pf, True),
+        ("Avg_Pace_to_HR", txt["Avg_Pace_to_HR"], txt["ylabel_pace_to_hr"], "blue", None, True)
     ]
     
     # Full path for PDF
