@@ -33,7 +33,7 @@ def get_text_dictionary(language="en"):
             "avg_time_seconds_per_run": "Avg Time/Run",
             "Avg_HR": "Average Heart Rate",
             "Avg_Pace_seconds": "Average Pace",
-            "Avg_Pace_to_HR": "Pace to Heart Rate Ratio", 
+            "Running_Effort_Index": "Running Effort Index (Heart Rate to Speed Ratio)", 
             "ylabel_km": "km",
             "ylabel_runs": "Runs per Week",
             "ylabel_minutes": "min",
@@ -41,7 +41,7 @@ def get_text_dictionary(language="en"):
             "ylabel_min_per_run": "min",
             "ylabel_bpm": "bpm",
             "ylabel_pace": "min/km",
-            "ylabel_pace_to_hr": "sec/km per bpm",
+            "ylabel_Effort_Index": "HR/Speed (bpm per m/s)",
             "all_charts_saved": "All charts saved to PNG in '{0}' and PDF: {1}"
         },
         "ru": {
@@ -52,7 +52,7 @@ def get_text_dictionary(language="en"):
             "avg_time_seconds_per_run": "Среднее время тренировки",
             "Avg_HR": "Средний пульс",
             "Avg_Pace_seconds": "Средний темп",
-            "Avg_Pace_to_HR": "Отношение темпа к пульсу",
+            "Running_Effort_Index": "Индекс беговой нагрузки (Отношение пульса к скорости)",
             "ylabel_km": "км",
             "ylabel_runs": "Тренировок в неделю",
             "ylabel_minutes": "мин",
@@ -60,7 +60,7 @@ def get_text_dictionary(language="en"):
             "ylabel_min_per_run": "мин",
             "ylabel_bpm": "уд/мин",
             "ylabel_pace": "мин/км",
-            "ylabel_pace_to_hr": "сек/км на уд/мин",
+            "ylabel_Effort_Index": "Пульс/Скорость (уд/мин на м/с)",
             "all_charts_saved": "Все графики сохранены в PNG в папке '{0}' и PDF: {1}"
         }
     }
@@ -168,7 +168,7 @@ def plot_all_metrics(summary, output_dir="charts", language="en"):
         ("avg_time_seconds_per_run", txt["avg_time_seconds_per_run"], txt["ylabel_min_per_run"], "purple", tf, False),
         ("Avg_HR", txt["Avg_HR"], txt["ylabel_bpm"], "red", None, False),
         ("Avg_Pace_seconds", txt["Avg_Pace_seconds"], txt["ylabel_pace"], "orange", pf, True),
-        ("Avg_Pace_to_HR", txt["Avg_Pace_to_HR"], txt["ylabel_pace_to_hr"], "blue", None, True)
+        ("Running_Effort_Index", txt["Running_Effort_Index"], txt["ylabel_Effort_Index"], "blue", None, True)
     ]
     
     # Full path for PDF
